@@ -6,11 +6,22 @@
 #define BLUELEDPIN 10
 
 #define POTIPIN 2
+#define BUTTONPIN 2
+
+bool animationRunning = true;
+
+void toggleAnimation()
+{
+  animationRunning = !animationRunning;
+}
 
 void setup() {
   pinMode(REDLEDPIN,OUTPUT);
   pinMode(GREENLEDPIN,OUTPUT);
   pinMode(BLUELEDPIN,OUTPUT);
+  pinMode(BUTTONPIN,INPUT_PULLUP);
+
+  attachInterrupt(digitalPinToInterrupt(BUTTONPIN), toggleAnimation, FALLING);
 
 }
 
@@ -46,7 +57,7 @@ void ShowColorWheelPos(byte WheelPos ) {
 void loop() {
    uint8_t value = 0;
   
-  while(value < 256)
+  while(value < 256 && animationRunning)
   {
     
     value ++;
